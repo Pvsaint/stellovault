@@ -1,26 +1,15 @@
 // TypeScript type definitions for StelloVault frontend
 
-// Import centralized types for consistency
-import { 
-  PaymentStatus, 
-  LoanStatus, 
+// Re-export centralized types for consistency
+export type {
+  PaymentStatus,
+  LoanStatus,
   TransactionStatus,
-  type Repayment,
-  type Loan,
-  type LoanFormData,
-  type PaymentTransaction
-} from './loan';
-
-// Re-export for external use
-export { 
-  PaymentStatus, 
-  LoanStatus, 
-  TransactionStatus,
-  type Repayment,
-  type Loan,
-  type LoanFormData,
-  type PaymentTransaction
-} from './loan';
+  Repayment,
+  Loan,
+  LoanFormData,
+  PaymentTransaction,
+} from "./loan";
 
 export interface User {
   id: string;

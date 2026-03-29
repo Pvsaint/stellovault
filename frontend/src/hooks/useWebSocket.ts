@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import type { RiskScoreBreakdown } from './useRiskScore';
+import { useEffect, useRef, useState } from "react";
+import type { RiskScoreBreakdown } from "./useRiskScore";
 
 // ─── Public types ─────────────────────────────────────────────────────────────
 
 export interface ScoreUpdateEvent {
-  type: 'RiskScoreUpdated';
+  type: "RiskScoreUpdated";
   wallet_address: string;
   overall_score: number;
-  grade: 'A' | 'B' | 'C' | 'D' | 'F';
+  grade: "A" | "B" | "C" | "D" | "F";
   components: RiskScoreBreakdown[];
   calculated_at: string;
 }
@@ -47,13 +47,10 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
 
   useEffect(() => {
     if (!walletAddress) {
-      setConnected(false);
-      setConnectionFailed(false);
       return;
     }
 
     let ws: WebSocket | null = null;
-    let attempt = 0;
     let consecutiveFailures = 0;
     let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
     let stopped = false;
@@ -69,7 +66,7 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
       if (stopped) return;
 
       attempt += 1;
-      ws = new WebSocket('/ws');
+      ws = new WebSocket("/ws");
 
       ws.onopen = () => {
         if (stopped) {
@@ -85,7 +82,7 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
         if (stopped) return;
         try {
           const data = JSON.parse(event.data as string);
-          if (data && data.type === 'RiskScoreUpdated') {
+          if (data && data.type === "RiskScoreUpdated") {
             onScoreUpdateRef.current(data as ScoreUpdateEvent);
           }
         } catch {
@@ -131,5 +128,11 @@ export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {
     };
   }, [walletAddress]);
 
-  return { connected, connectionFailed };
+  const effectiveConnected = walletAddress ? connected : false;
+  const effectiveConnectionFailed = walletAddress ? connectionFailed : false;
+
+  return {
+    connected: effectiveConnected,
+    connectionFailed: effectiveConnectionFailed,
+  };
 }
