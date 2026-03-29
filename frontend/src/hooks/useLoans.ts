@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Loan, LoanStatus, TransactionStatus } from "@/types";
+import type { Loan } from "@/types";
+import { LoanStatus, TransactionStatus } from "@/types";
 
 // ── Mock data for development ──────────────────────────────────────────
 const MOCK_REPAYMENTS = [
